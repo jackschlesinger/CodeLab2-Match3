@@ -2,34 +2,33 @@
 using System.Collections;
 
 public class InputManagerScript : MonoBehaviour {
-
-	protected GameManagerScript gameManager;
-	protected MoveTokensScript moveManager;
-	protected GameObject selected = null;
+	private GameManagerScript _gameManager;
+	private MoveTokensScript _moveManager;
+	private GameObject _selected = null;
 
 	public virtual void Start () {
-		moveManager = GetComponent<MoveTokensScript>();
-		gameManager = GetComponent<GameManagerScript>();
+		_moveManager = GetComponent<MoveTokensScript>();
+		_gameManager = GetComponent<GameManagerScript>();
 	}
 
 	public virtual void SelectToken(){
-		if(Input.GetMouseButtonDown(0)){
+		if (Input.GetMouseButtonDown(0)){
 			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			
 			Collider2D collider = Physics2D.OverlapPoint(mousePos);
 
 			if(collider != null){
-				if(selected == null){
-					selected = collider.gameObject;
+				if(_selected == null){
+					_selected = collider.gameObject;
 				} else {
-					Vector2 pos1 = gameManager.GetPositionOfTokenInGrid(selected);
-					Vector2 pos2 = gameManager.GetPositionOfTokenInGrid(collider.gameObject);
+					Vector2 pos1 = _gameManager.GetPositionOfTokenInGrid(_selected);
+					Vector2 pos2 = _gameManager.GetPositionOfTokenInGrid(collider.gameObject);
 
 					if(Mathf.Abs((pos1.x - pos2.x) + (pos1.y - pos2.y)) == 1){
-						moveManager.SetupTokenExchange(selected, pos1, collider.gameObject, pos2, true);
+						_moveManager.SetupTokenExchange(_selected, pos1, collider.gameObject, pos2, true);
 					}
 
-					selected = null;
+					_selected = null;
 				}
 			}
 		}

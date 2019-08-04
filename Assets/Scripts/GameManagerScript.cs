@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class GameManagerScript : MonoBehaviour {
 
@@ -46,14 +45,14 @@ public class GameManagerScript : MonoBehaviour {
 
 	void MakeGrid() {
 		grid = new GameObject("TokenGrid");
-		for(int x = 0; x < gridWidth; x++){
+		for(var x = 0; x < gridWidth; x++){
 			for(int y = 0; y < gridHeight; y++){
 				AddTokenToPosInGrid(x, y, grid);
 			}
 		}
 	}
 
-	public virtual bool GridHasEmpty(){
+	protected virtual bool GridHasEmpty(){
 		for(int x = 0; x < gridWidth; x++){
 			for(int y = 0; y < gridHeight ; y++){
 				if(gridArray[x, y] == null){
@@ -64,7 +63,6 @@ public class GameManagerScript : MonoBehaviour {
 
 		return false;
 	}
-
 
 	public Vector2 GetPositionOfTokenInGrid(GameObject token){
 		for(int x = 0; x < gridWidth; x++){

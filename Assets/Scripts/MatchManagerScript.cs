@@ -1,20 +1,19 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class MatchManagerScript : MonoBehaviour {
-
-	protected GameManagerScript gameManager;
+	
+	private GameManagerScript _gameManager;
 
 	public virtual void Start () {
-		gameManager = GetComponent<GameManagerScript>();
+		_gameManager = GetComponent<GameManagerScript>();
 	}
 
 	public virtual bool GridHasMatch(){
 		bool match = false;
 		
-		for(int x = 0; x < gameManager.gridWidth; x++){
-			for(int y = 0; y < gameManager.gridHeight ; y++){
-				if(x < gameManager.gridWidth - 2){
+		for(int x = 0; x < _gameManager.gridWidth; x++){
+			for(int y = 0; y < _gameManager.gridHeight ; y++){
+				if(x < _gameManager.gridWidth - 2){
 					match = match || GridHasHorizontalMatch(x, y);
 				}
 			}
@@ -24,9 +23,9 @@ public class MatchManagerScript : MonoBehaviour {
 	}
 
 	public bool GridHasHorizontalMatch(int x, int y){
-		GameObject token1 = gameManager.gridArray[x + 0, y];
-		GameObject token2 = gameManager.gridArray[x + 1, y];
-		GameObject token3 = gameManager.gridArray[x + 2, y];
+		GameObject token1 = _gameManager.gridArray[x + 0, y];
+		GameObject token2 = _gameManager.gridArray[x + 1, y];
+		GameObject token3 = _gameManager.gridArray[x + 2, y];
 		
 		if(token1 != null && token2 != null && token3 != null){
 			SpriteRenderer sr1 = token1.GetComponent<SpriteRenderer>();
@@ -39,16 +38,16 @@ public class MatchManagerScript : MonoBehaviour {
 		}
 	}
 
-	public int GetHorizontalMatchLength(int x, int y){
+	private int _GetHorizontalMatchLength(int x, int y){
 		int matchLength = 1;
 		
-		GameObject first = gameManager.gridArray[x, y];
+		GameObject first = _gameManager.gridArray[x, y];
 
 		if(first != null){
 			SpriteRenderer sr1 = first.GetComponent<SpriteRenderer>();
 			
-			for(int i = x + 1; i < gameManager.gridWidth; i++){
-				GameObject other = gameManager.gridArray[i, y];
+			for(int i = x + 1; i < _gameManager.gridWidth; i++){
+				GameObject other = _gameManager.gridArray[i, y];
 
 				if(other != null){
 					SpriteRenderer sr2 = other.GetComponent<SpriteRenderer>();
@@ -70,19 +69,19 @@ public class MatchManagerScript : MonoBehaviour {
 	public virtual int RemoveMatches(){
 		int numRemoved = 0;
 
-		for(int x = 0; x < gameManager.gridWidth; x++){
-			for(int y = 0; y < gameManager.gridHeight ; y++){
-				if(x < gameManager.gridWidth - 2){
+		for(int x = 0; x < _gameManager.gridWidth; x++){
+			for(int y = 0; y < _gameManager.gridHeight ; y++){
+				if(x < _gameManager.gridWidth - 2){
 
-					int horizonMatchLength = GetHorizontalMatchLength(x, y);
+					int horizonMatchLength = _GetHorizontalMatchLength(x, y);
 
 					if(horizonMatchLength > 2){
 
 						for(int i = x; i < x + horizonMatchLength; i++){
-							GameObject token = gameManager.gridArray[i, y]; 
+							GameObject token = _gameManager.gridArray[i, y]; 
 							Destroy(token);
 
-							gameManager.gridArray[i, y] = null;
+							_gameManager.gridArray[i, y] = null;
 							numRemoved++;
 						}
 					}
